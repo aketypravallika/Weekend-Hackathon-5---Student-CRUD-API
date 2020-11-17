@@ -27,7 +27,7 @@ app.get('/api/student/:id', (req, res) => {
     
 });
 app.post("/api/student", (req, res) => {
-    res.writehead(200 ,{"content-type": "application/x-www-form-urlencoded"});
+   res.set({'content-type':'application/x-www-form-urlencoded'});
    
 });
 
