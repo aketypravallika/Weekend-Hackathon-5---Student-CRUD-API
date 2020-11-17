@@ -26,6 +26,11 @@ app.get('/api/student/:id', (req, res) => {
     return;
     
 });
+app.post("/api/student", (req, res) => {
+    res.writehead(200 ,{"content-type": "application/x-www-form-urlencoded"});
+   
+});
+
 
 app.listen(port, () => console.log(`App listening on port ${port}!`))
 
