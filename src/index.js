@@ -27,8 +27,15 @@ app.get('/api/student/:id', (req, res) => {
     
 });
 app.post("/api/student", (req, res) => {
-   res.set({'content-type':'application/x-www-form-urlencoded'});
-   
+    res.set({'content-type':'application/x-www-form-urlencoded'});
+    let {name, currentClass, division} = req.body;
+    if(!name || !currentClass || !division){
+        res.status(400);
+        return;
+    }
+    let newdata = { id:studentdata.length+1,name:name,currentClass: parseInt(currentClass),division:division}
+    studentdata.push(newdata);
+    res.send(JSON.stringify(newdata.id));
 });
 
 
