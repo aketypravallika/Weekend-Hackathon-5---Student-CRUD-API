@@ -64,7 +64,7 @@ app.put("/api/student/:id", (req, res) => {
         return;
     }
     newid.name = req.body.name;
-   res.send(newid);
+    res.send({name: newid.name} );
    return;
    
 });
