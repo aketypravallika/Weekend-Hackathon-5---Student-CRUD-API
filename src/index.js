@@ -33,9 +33,10 @@ app.post("/api/student", (req, res) => {
         res.status(400);
         return;
     }
-   let newdata = { id:studentdata.length+1,name:name,currentClass: parseInt(currentClass),division:division}
+   let newdata = { id:studentdata.length+1,name:name,currentClass: parseInt(currentClass),division:division};
     studentdata.push(newdata);
-  res.send(JSON.stringify(newdata));
+  res.write(JSON.stringify(newdata));
+   res.end();
 });
 
 
