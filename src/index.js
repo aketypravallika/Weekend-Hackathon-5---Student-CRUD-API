@@ -35,6 +35,7 @@ app.post("/api/student", (req, res) => {
     }
     let newdata = { id:studentdata.length+1,name:name,currentClass: parseInt(currentClass),division:division}
     studentdata.push(newdata);
+   res.send(newdata);
     res.send(JSON.stringify(newdata.id));
 });
 
