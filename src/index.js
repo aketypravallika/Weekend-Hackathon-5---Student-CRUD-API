@@ -28,17 +28,31 @@ app.get('/api/student/:id', (req, res) => {
 });
 app.post("/api/student", (req, res) => {
     res.set({'content-type':'application/x-www-form-urlencoded'});
-    let {name, currentClass, division} = req.body;
-    if(!name || !currentClass || !division){
-        res.status(400);
-        return;
+    if(!req.body.name||!req.body.currentClass)
+    {
+        res.status(404);
+        return;   
     }
-   let newdata = { id:studentdata.length+1,name:name,currentClass: parseInt(currentClass),division:division};
-    studentdata.push(newdata);
-  res.write(JSON.stringify(newdata));
-   res.end();
-});
+    if(!req.body.division)
+    {
+        res.status(404);
+      return;
+    }
+    const newdata={
+         id :studentdata.length+1,
+         name:req.body.name,
+         currentClass: parseInt(req.body.currentClass),
+         division:req.body.division
 
+    };
+    studentdata.push(newdata);
+    res.send(JSON.stringify(newdata));
+});
+app.put("/api/student/:id", (req, res) => {
+    res.set({'content-type':'application/x-www-form-urlencoded'});
+    
+   
+});
 
 app.listen(port, () => console.log(`App listening on port ${port}!`))
 
