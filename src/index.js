@@ -30,12 +30,12 @@ app.post("/api/student", (req, res) => {
     res.set({'content-type':'application/x-www-form-urlencoded'});
     if(!req.body.name||!req.body.currentClass)
     {
-        res.status(404);
+        res.status(400);
         return;   
     }
     if(!req.body.division)
     {
-        res.status(404);
+        res.status(400);
       return;
     }
     const newdata={
@@ -49,8 +49,23 @@ app.post("/api/student", (req, res) => {
     res.send(JSON.stringify({id: studentdata.length }));
 });
 app.put("/api/student/:id", (req, res) => {
-    res.set({'content-type':'application/x-www-form-urlencoded'});
-    
+   
+     res.set({'content-type':'application/x-www-form-urlencoded'});
+    const id = req.params.id;
+    const newid = studentdata.find(newid=>newid.id===parseInt(id));
+    if(!newid)
+    {
+        res.status(400).send("not valid id");
+        return;
+    }
+    if(newid.name==="")
+    {
+        res.status(400);
+        return;
+    }
+    newid.name = req.body.name;
+   res.send(newid);
+   return;
    
 });
 
