@@ -14,15 +14,17 @@ app.get('/api/student', (req, res) => {
     
 });
 app.get('/api/student/:id', (req, res) => {
-    const Id = req.params.id;
-    for(var data in studentdata){
-        if(studentdata[data]["id"] === parseInt(Id)){
-            res.send(studentdata[data]);
-            return;
-        }
+    const id = req.params.id;
+    const data = studentdata.find(data=>data.id===parseInt(id));
+    console.log(data);
+    if(data===undefined)
+    {
+        res.status(404).send("id not found");
+        return;
     }
-  res.status(404).send("not valid id");
-  return; 
+    res.send(data);
+    return;
+    
 });
 
 app.listen(port, () => console.log(`App listening on port ${port}!`))
