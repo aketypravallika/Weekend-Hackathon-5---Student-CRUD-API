@@ -45,8 +45,8 @@ app.post("/api/student", (req, res) => {
          division:req.body.division
 
     };
-    studentdata.push(newdata);
-    res.send(JSON.stringify(newdata));
+   studentdata.push(newdata);
+    res.send(JSON.stringify({id: studentdata.length }));
 });
 app.put("/api/student/:id", (req, res) => {
     res.set({'content-type':'application/x-www-form-urlencoded'});
