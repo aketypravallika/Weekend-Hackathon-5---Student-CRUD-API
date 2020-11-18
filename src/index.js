@@ -17,17 +17,17 @@ app.get('/api/student/:id', (req, res) => {
     const id = req.params.id;
     const data = studentdata.find(data=>data.id===parseInt(id));
     console.log(data);
-    if(!data)
+    if(data===undefined)
     {
         res.status(404).send("id not found");
         return;
     }
     res.send(data);
-   
+    return;
     
 });
 app.post("/api/student", (req, res) => {
-    
+    res.set({'content-type':'application/x-www-form-urlencoded'});
     if(!req.body.name||!req.body.currentClass)
     {
         res.status(400);
@@ -41,44 +41,40 @@ app.post("/api/student", (req, res) => {
     const newdata={
          id :studentdata.length+1,
          name:req.body.name,
-         currentClass: Number(req.body.currentClass),
+         currentClass: parseInt(req.body.currentClass),
          division:req.body.division
 
     };
-    studentdata.push(newdata);
-   
-    res.json({id: newdata.id});
+   studentdata.push(newdata);
+    res.json({id: newdata.id });
 });
 app.put("/api/student/:id", (req, res) => {
-    res.set({'content-type':'application/x-www-form-urlencoded'});
+   
+     res.set({'content-type':'application/x-www-form-urlencoded'});
     const id = req.params.id;
-    
     const newid = studentdata.find(newid=>newid.id===parseInt(id));
     if(!newid)
     {
         res.status(400).send("not valid id");
         return;
     }
+   else
     if(newid.name==="")
     {
         res.status(400);
         return;
     }
-    newid.name = req.body.name;
-    console.log(newid);
-    
-   res.send({name: newid.name} );
-   return;
-});
-app.delete("/api/student/:id", (req, res) => {
-    const id = req.params.id;
-    const index = studentdata.find(index=>index.id===parseInt(id));
-    if(!index)
-    {
-        res.status(404).send("not valid id");
-        return;
+   else
+    if(!Number.isInteger(newid.currentClass)){
+       res.status(400);
+       return;
     }
+    newid.name = req.body.name;
+    res.send({name: newid.name} );
+   return;
+   
+});
 
 app.listen(port, () => console.log(`App listening on port ${port}!`))
 
-module.exports = app;   
+module.exports = app; 
