@@ -61,18 +61,18 @@ app.put("/api/student/:id", (req, res) => {
         return;
     }
    else
-    if(newid.name==="")
+    if(req.body.name==="")
     {
         res.status(400);
         return;
     }
    else
-    if(!Number.isInteger(newid.currentClass)){
+    if(!Number.isInteger(req.body.currentClass)){
        res.status(400);
        return;
     }
    else
-       if(!newid.division.length === 1 || !newid.division.match(/[A-Z]/)){
+       if(!req.body.division.length === 1 || !req.body.division.match(/[A-Z]/)){
             res.status(400);
             return; 
         }
