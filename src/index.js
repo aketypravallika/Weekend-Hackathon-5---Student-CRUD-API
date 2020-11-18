@@ -3,7 +3,7 @@ const app = express()
 const bodyParser = require("body-parser");
 const port = 8080
 app.use(express.urlencoded());
-
+var http = require("http");
 // Parse JSON bodies (as sent by API clients)
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -27,12 +27,13 @@ app.get('/api/student/:id', (req, res) => {
     
 });
 app.post("/api/student", (req, res) => {
-    res.set({'content-type':'application/x-www-form-urlencoded'});
+    
     if(!req.body.name||!req.body.currentClass)
     {
         res.status(400);
         return;   
     }
+   else
     if(!req.body.division)
     {
         res.status(400);
@@ -46,11 +47,11 @@ app.post("/api/student", (req, res) => {
 
     };
    studentdata.push(newdata);
-    res.json({id: newdata.id });
+    res.send({"id": newdata.id });
 });
 app.put("/api/student/:id", (req, res) => {
    
-     res.set({'content-type':'application/x-www-form-urlencoded'});
+     
     const id = req.params.id;
     const newid = studentdata.find(newid=>newid.id===parseInt(id));
     if(!newid)
@@ -69,10 +70,27 @@ app.put("/api/student/:id", (req, res) => {
        res.status(400);
        return;
     }
+   else
+       if(!newid.division.length === 1 || !newid.division.match(/[A-Z]/)){
+            res.status(400);
+            return; 
+        }
     newid.name = req.body.name;
-    res.send({name: newid.name} );
-   return;
+    res.send(newid.name);
    
+   
+});
+app.delete("/api/student/:id", (req, res) => {
+    const id = req.params.id;
+    const data = studentdata.find(data=>data.id===parseInt(id));
+    if(!data)
+    {
+        res.status(404).send("not valid id");
+        return;
+    }
+   const index = studentdata.findIndex(index => index.id === parseInt(id));
+    studentdata.splice(index, 1);
+    res.send(data);
 });
 
 app.listen(port, () => console.log(`App listening on port ${port}!`))
