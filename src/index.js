@@ -54,6 +54,9 @@ app.put("/api/student/:id", (req, res) => {
      
     const id = req.params.id;
     const newid = studentdata.find(newid=>newid.id===parseInt(id));
+    newid.name = req.body.name;
+    newid.currentClass= parseInt(req.body.currentClass);
+        newid.division=req.body.division;
     if(!newid)
     {
         res.status(400).send("not valid id");
@@ -75,7 +78,7 @@ app.put("/api/student/:id", (req, res) => {
             res.status(400);
             return; 
         }
-    newid.name = req.body.name;
+   
     res.send(newid.name);
    
    
