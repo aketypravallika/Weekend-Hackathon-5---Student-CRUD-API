@@ -12,12 +12,11 @@ const studentdata = require('./InitialData');
 app.get('/api/student', (req, res) => {
    res.send(studentdata);
     
-});
-app.get('/api/student/:id', (req, res) => {
+});app.get('/api/student/:id', (req, res) => {
     const id = req.params.id;
     const data = studentdata.find(data=>data.id===parseInt(id));
     console.log(data);
-    if(data===undefined)
+    if(!data)
     {
         res.status(404).send("id not found");
         return;
@@ -27,7 +26,7 @@ app.get('/api/student/:id', (req, res) => {
     
 });
 app.post("/api/student", (req, res) => {
-    res.set({'content-type':'application/x-www-form-urlencoded'});
+    
     if(!req.body.name||!req.body.currentClass)
     {
         res.status(400);
@@ -45,14 +44,17 @@ app.post("/api/student", (req, res) => {
          division:req.body.division
 
     };
-   studentdata.push(newdata);
-    res.send(JSON.stringify({id: studentdata.length }));
+    studentdata.push(newdata);
+    req.set({'content-type':'application/json'});
+    res.send({id: studentdata.length });
 });
 app.put("/api/student/:id", (req, res) => {
-   
-     res.set({'content-type':'application/x-www-form-urlencoded'});
+    // req.set({'content-type':'application/x-www-form-urlencoded'});
     const id = req.params.id;
+    
     const newid = studentdata.find(newid=>newid.id===parseInt(id));
+    console.log("newdata"+ JSON.stringify({newid}));
+    console.log("studentdata"+ JSON.stringify({studentdata}));
     if(!newid)
     {
         res.status(400).send("not valid id");
@@ -64,10 +66,19 @@ app.put("/api/student/:id", (req, res) => {
         return;
     }
     newid.name = req.body.name;
-    res.send({name: newid.name} );
+    console.log(newid);
+    
+   res.send({name: newid.name} );
    return;
-   
 });
+app.delete("/api/student/:id", (req, res) => {
+    const id = req.params.id;
+    const index = studentdata.find(index=>index.id===parseInt(id));
+    if(!index)
+    {
+        res.status(404).send("not valid id");
+        return;
+    }
 
 app.listen(port, () => console.log(`App listening on port ${port}!`))
 
