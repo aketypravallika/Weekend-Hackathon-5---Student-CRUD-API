@@ -76,10 +76,13 @@ app.put("/api/student/:id", (req, res) => {
             res.status(400);
             return; 
         }
-   newid.name = req.body.name;
-    newid.currentClass= parseInt(req.body.currentClass);
-        newid.division=req.body.division;
-    res.send(newid.name);
+  const updatedata= {
+        id:id,
+        ...newid,
+        ...req.body
+    }
+   studentdata.splice(index, 1,updatedata);
+    res.send(req.body.name);
    
    
 });
