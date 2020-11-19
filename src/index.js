@@ -76,6 +76,7 @@ app.put("/api/student/:id", (req, res) => {
             res.status(400);
             return; 
         }
+    const index = studentdata.findIndex(index => index.id === parseInt(id));
   const updatedata= {
         id:id,
         ...newid,
