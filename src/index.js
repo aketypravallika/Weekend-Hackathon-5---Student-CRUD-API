@@ -48,6 +48,7 @@ app.post("/api/student", (req, res) => {
     };
    studentdata.push(newdata);
     res.send({"id": newdata.id });
+  
 });
 app.put("/api/student/:id", (req, res) => {
    
@@ -80,10 +81,14 @@ app.put("/api/student/:id", (req, res) => {
   const updatedata= {
         id:id,
         ...newid,
-        ...req.body
+        ...req.body,
+        
     }
+   let newclass = Number(updatedata.currentClass); 
+
+    updatedata.currentClass = newclass;
    studentdata.splice(index, 1,updatedata);
-    res.send(req.body.name);
+    res.send(updatedata.name);
    
    
 });
