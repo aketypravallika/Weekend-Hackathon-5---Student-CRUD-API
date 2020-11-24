@@ -17,7 +17,7 @@ app.get('/api/student/:id', (req, res) => {
     const id = req.params.id;
     const data = studentdata.find(data=>data.id===parseInt(id));
     console.log(data);
-    if(data===undefined)
+    if(!data)
     {
         res.status(404).send("id not found");
         return;
@@ -61,22 +61,24 @@ app.put("/api/student/:id", (req, res) => {
         res.status(400).send("not valid id");
         return;
     }
-   else
-    if(req.body.name==="")
-    {
-        res.status(400);
-        return;
-    }
-   else
-    if(!Number.isInteger(req.body.currentClass)){
-       res.status(400);
-       return;
-    }
-   else
-       if(!req.body.division.length === 1 || !req.body.division.match(/[A-Z]/)){
+  else if(req.body.name){
+        if(req.body.name.length === 0){
             res.status(400);
             return; 
         }
+    }
+    else if(req.body.currentClass){
+        if(!Number.isInteger(req.body.currentClass)){
+            res.status(400);
+            return; 
+        }
+    }
+    else if(req.body.division){
+        if(!req.body.division.length === 1 || !req.body.division.match(/[A-Z]/)){
+            res.status(400);
+            return; 
+        }
+    }
     const index = studentdata.findIndex(index => index.id === parseInt(id));
   const updatedata= {
         id:id,
